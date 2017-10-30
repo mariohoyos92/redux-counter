@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
-import {increment, decrement} from './ducks/counter';
+import {increment, decrement, undo, redo} from './ducks/counter';
 
 import "./App.css";
 
 export class App extends Component {
 	render() {
-	let	{increment, decrement, currentValue} = this.props;
+	let	{increment, decrement, currentValue, undo, redo, previousValues, futureValues} = this.props;
 
 		console.log(this.props);
 		return (
@@ -41,15 +41,15 @@ export class App extends Component {
 						<br />
 						<button
 							className="counter__button undo"
-							disabled={ true }
-							onClick={ () => null }
+							disabled={ previousValues.length === 0}
+							onClick={ () => undo() }
 						>
 							Undo
 						</button>
 						<button
 							className="counter__button redo"
-							disabled={ true }
-							onClick={ () => null }
+							disabled={ futureValues.length === 0}
+							onClick={ () => redo() }
 						>
 							Redo
 						</button>
@@ -69,7 +69,9 @@ function mapStateToProps(state){ return state };
 
 const outputActions ={
 		increment,
-		decrement
+		decrement,
+		undo,
+		redo
 	}
 
 
